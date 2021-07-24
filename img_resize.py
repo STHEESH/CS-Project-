@@ -31,32 +31,7 @@ def imageprepare(image):
     return img_
 
 
-import cv2 as cv
-import numpy as np
 
-# IMAGE_ENHANCING_FUNCTIONS
-def D_filter(image):
-    return cv.filter2D(image , -1 , np.ones((5,5), np.float32)/25)
-
-
-def grayscale(image):
-    return cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-
-def noiseRemoval(image):
-    return cv2.bilateralFilter(image, 9, 75, 75)
-
-def histogramEqualization(image):
-    return cv2.equalizeHist(image)
-
-def morphologicalOpening(image, structElem):
-    return cv2.morphologyEx(image, cv2.MORPH_OPEN, structElem, iterations=15)
-
-def subtractOpenFromHistEq(histEqImage, morphImage):
-    return cv2.subtract(histEqImage, morphImage)
-
-def tresholding(image):
-    x,t=cv.threshold(image, 127, 255, cv.THRESH_BINARY, cv.THRESH_OTSU)
-    return t
 
 
 
