@@ -42,16 +42,17 @@ def D_filter(image):
 def grayscale(image):
     return cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
-def remove_noise_1(image):
-    return cv.blur(image, (1, 1))
+def noiseRemoval(image):
+    return cv2.bilateralFilter(image, 9, 75, 75)
 
+def histogramEqualization(image):
+    return cv2.equalizeHist(image)
 
-def remove_noise_2(image):
-    return cv.GaussianBlur(image, (1,1) , 0)
+def morphologicalOpening(image, structElem):
+    return cv2.morphologyEx(image, cv2.MORPH_OPEN, structElem, iterations=15)
 
-
-def remove_noise(image):
-    return cv.medianBlur(image, 3)
+def subtractOpenFromHistEq(histEqImage, morphImage):
+    return cv2.subtract(histEqImage, morphImage)
 
 def tresholding(image):
     x,t=cv.threshold(image, 127, 255, cv.THRESH_BINARY, cv.THRESH_OTSU)
