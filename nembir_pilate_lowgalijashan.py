@@ -11,7 +11,7 @@ def grayscale(image):
     return cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
 def noiseRemoval(image):
-    return cv.bilateralFilter(image, 9, 75, 75)
+    return cv.bilateralFilter(image, 11, 17, 17)
 
 def histogramEqualization(image):
     return cv.absdiffequalizeHist(image)
