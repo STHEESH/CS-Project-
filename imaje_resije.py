@@ -49,7 +49,9 @@ def image_resize(img):
     resized_image.show()
     resized_image.save(img)
 
-    img_ = plt.imread(img)
+    img_ = cv2.imread(img)
+    img_ = np.resize(img_ , 28*28)
+
     return img_
 
 

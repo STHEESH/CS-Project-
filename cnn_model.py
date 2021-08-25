@@ -7,6 +7,7 @@ from tensorflow import keras
 from tensorflow.python.keras.metrics import accuracy
 import cv2 as cv
 from PIL.Image import open
+from imaje_resije import *
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train),(x_test,y_test)=mnist.load_data()
@@ -36,27 +37,14 @@ model.evaluate(x_test_flatten , y_test)
 
 
 y_predicted = model.predict(x_test_flatten)
-print(y_predicted[42])
-print(np.argmax(y_predicted[42]))
-plt.imshow(x_test[42])
+print(x_test_flatten.shape)
+print(y_predicted[17])
+print(np.argmax(y_predicted[17]))
+plt.imshow(x_test[17])
 plt.show()
 
-'''
-IMG_SIZE=28
-img = input()
-img = open(img)
-gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-resized = cv.resize(gray,(28,28),interpolation=cv.INTER_AREA)
-newimg = tf.keras.utils.normalize(resized,axis=1)
-newimg = np.array(newimg).reshape(-1,IMG_SIZE*IMG_SIZE,-1)
-newimg = np.array(newimg).reshape(-1,IMG_SIZE,IMG_SIZE,1)
-print(newimg)
+x=image_resize("6.png")
+print(x.size)
 
-
-gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-resized = cv.resize(gray,(28,28),interpolation=cv.INTER_AREA)
-newimg = tf.keras.utils.normalize(resized,axis=1)
-newimg = np.array(newimg).reshape(-1,IMG_SIZE*IMG_SIZE,-1)
-prediction = model.predict(newimg)
+prediction = model.predict(x)
 print(np.argmax(prediction))
-'''
