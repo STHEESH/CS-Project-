@@ -50,12 +50,12 @@ model.add(Activation('softmax'))
 
 #TRAINING
 model.compile(loss="sparse_categorical_crossentropy",optimizer="adam",metrics=['accuracy'])
-model.fit(x_trainr,y_train,epochs=5,validation_split=0.3)
+model.fit(x_trainr,y_train,epochs=3,validation_split=0.3)
 test_loss,test_acc = model.evaluate(x_testr,y_test)
 
 #PROCESSING IMAGE
 import cv2
-src = r'C:\Users\sathi\Desktop\EVERYTHING\CS PROJECT\six.png'
+src = 'six.png'
 img = cv2.imread(src)
 plt.imshow(img)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

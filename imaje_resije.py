@@ -1,6 +1,11 @@
-from PIL import Image, ImageFilter
+#from PIL import Image, ImageFilter
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
-def imageprepare(image):
+#METHOD 1
+'''
+def image_resize(image):
     im = Image.open(image).convert('L')
     width = float(im.size[0])
     height = float(im.size[1]) 
@@ -27,8 +32,31 @@ def imageprepare(image):
     
 
     img_ = list(newImage.getdata()) 
-    img_ = [(255 - x) * 1.0 / 255.0 for x in img_]         #invert
+    img_ = [(255 - x) * 1.0 / 255.0 for x in img_]   
+    img_= np.array(img_)  #invert
+    img_ = np.resize(img_ , (28,28))
     return img_
+
+'''
+#METHOD 2
+from PIL import Image
+import os
+import PIL
+import glob
+def image_resize(img):
+    image= Image.open(img)
+    resized_image = image.resize((28,28))
+    resized_image.show()
+    resized_image.save(img)
+
+    img_ = plt.imread(img)
+    return img_
+x = image_resize("6.png")
+print(x)
+
+
+
+
 
 
 

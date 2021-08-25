@@ -73,6 +73,3 @@ def drawLocalizedPlate(image, approximatedPolygon):
 
 
 
-
-
-

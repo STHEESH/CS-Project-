@@ -76,9 +76,7 @@ def imageprepare(argv):
     ar = [(255 - x) * 1.0 / 255.0 for x in ar]         #invert
     return ar
 
-x=imageprepare("six.png")
-x= np.reshape(x,10000,28*28) 
-print(x.shape)
+x=imageprepare("6.png")
 
-prediction = model.predict(x)
+prediction = model.predict_classes(x)
 print(np.argmax(prediction))
