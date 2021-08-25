@@ -51,8 +51,7 @@ def image_resize(img):
 
     img_ = plt.imread(img)
     return img_
-x = image_resize("6.png")
-print(x)
+
 
 
 
