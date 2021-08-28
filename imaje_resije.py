@@ -50,7 +50,7 @@ def image_resize(img):
     resized_image.save(img)
 
     img_ = cv2.imread(img)
-    img_ = np.resize(img_ , 28*28)
+    img_ = np.resize(img_ , (10000,28*28))
 
     return img_
 

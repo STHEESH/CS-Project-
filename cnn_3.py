@@ -6,6 +6,7 @@ import joblib
 from sklearn.decomposition import PCA
 import numpy as np
 from sklearn.utils import shuffle
+from imaje_resije import *
 
 dataframe = pd.read_csv('csv/dataset6labels.csv')                  #reads csv file(dataset)
 dataframe = dataframe.sample(frac=1).reset_index(drop=True)        # frac is percentage of data u want returned to u (1=100%)
@@ -34,3 +35,8 @@ joblib.dump(model, "model/svm_0to5label_linear_2")
 print ("predicting -----------")
 predictions = model.predict(X_test)
 print ("Accuracy ------------", metrics.accuracy_score(Y_test, predictions))
+
+x =image_resize("6.png")
+print(x.shape)
+y =model.predict(x)
+print(y)

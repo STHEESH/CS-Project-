@@ -1,4 +1,5 @@
 import tensorflow as tf
+from imaje_resije import *
 
 #MNIST
 mnist = tf.keras.datasets.mnist
@@ -54,15 +55,9 @@ model.fit(x_trainr,y_train,epochs=3,validation_split=0.3)
 test_loss,test_acc = model.evaluate(x_testr,y_test)
 
 #PROCESSING IMAGE
-import cv2
-src = 'six.png'
-img = cv2.imread(src)
-plt.imshow(img)
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-resized = cv2.resize(gray,(28,28),interpolation=cv2.INTER_AREA)
-newimg = tf.keras.utils.normalize(resized,axis=1)
-newimg = np.array(newimg).reshape(-1,IMG_SIZE,IMG_SIZE,1)
+image_resize("6.png")
+new_image = "6.png"
 
 #PREDICTING
-prediction = model.predict(newimg)
+prediction = model.predict(new_image)
 print(np.argmax(prediction))

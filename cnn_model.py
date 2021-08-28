@@ -37,14 +37,15 @@ model.evaluate(x_test_flatten , y_test)
 
 
 y_predicted = model.predict(x_test_flatten)
+print(x_test_flatten.size)
 print(x_test_flatten.shape)
 print(y_predicted[17])
-print(np.argmax(y_predicted[17]))
+print(np.argmax(y_predicted))
 plt.imshow(x_test[17])
 plt.show()
 
-x=image_resize("6.png")
+x=image_resize("nembirs.png")
 print(x.size)
 
 prediction = model.predict(x)
-print(np.argmax(prediction))
+print(prediction)
