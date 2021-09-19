@@ -31,11 +31,19 @@ model.add(Conv2D( 64, (3,3) ,activation= 'relu'))
 model.add(MaxPooling2D(pool_size=(2,2)))
 model.add(Dropout(0.25))
 model.add(Flatten())
-model.add(Dense(256 , activation="relu"))
+model.add(Dense(128 , activation="relu"))
 model.add(Dropout(0.5))
 model.add(Dense(10 ,activation ="softmax"))
 model.compile(loss = keras.losses.categorical_crossentropy , optimizer=keras.optimizers.Adadelta() , metrics=['accuracy'])
 
 Hist = model.fit(x_train ,
-y_train , batch_size= batch_size , epochs=epoch , verbose= 1 , validation_data=(x_test, y_test))
+y_train , 
+batch_size= batch_size , 
+epochs=epoch , 
+verbose= 1 , 
+validation_split=0.2 ,
+validation_data=(x_test, y_test))
 model.save("mnist.h5")
+model.evaluate(x_test , y_test , verbose=0)
+
+
