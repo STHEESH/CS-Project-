@@ -55,8 +55,7 @@ model.fit(x_trainr,y_train,epochs=3,validation_split=0.3)
 test_loss,test_acc = model.evaluate(x_testr,y_test)
 
 #PROCESSING IMAGE
-image_resize("6.png")
-new_image = "6.png"
+new_image = image_resize("6.png")
 
 #PREDICTING
 prediction = model.predict(new_image)

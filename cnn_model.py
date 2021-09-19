@@ -1,3 +1,4 @@
+import threading
 import pandas as pd
 import tensorflow as tf
 import numpy as np
@@ -8,6 +9,7 @@ from tensorflow.python.keras.metrics import accuracy
 import cv2 as cv
 from PIL.Image import open
 from imaje_resije import *
+from nembir_pilate_localijation import *
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train),(x_test,y_test)=mnist.load_data()
@@ -39,13 +41,15 @@ model.evaluate(x_test_flatten , y_test)
 y_predicted = model.predict(x_test_flatten)
 print(x_test_flatten.size)
 print(x_test_flatten.shape)
-print(y_predicted[17])
-print(np.argmax(y_predicted))
+print(y_predicted)
+print(np.argmax(y_predicted[17]))
 plt.imshow(x_test[17])
 plt.show()
 
-x=image_resize("nembirs.png")
+x=image_resize("3.png")
 print(x.size)
 
 prediction = model.predict(x)
 print(prediction)
+print(np.argmax(prediction))
+
