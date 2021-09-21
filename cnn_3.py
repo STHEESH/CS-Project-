@@ -1,42 +1,34 @@
-import pandas as pd
-import matplotlib.pyplot as plt  
-from sklearn import svm
-from sklearn import metrics
-import joblib
-from sklearn.decomposition import PCA
+import cv2 as cv #To read images
 import numpy as np
-from sklearn.utils import shuffle
+import matplotlib.pyplot as plt
+import tensorflow as tf
 from imaje_resije import *
 
-dataframe = pd.read_csv('csv/dataset6labels.csv')                  #reads csv file(dataset)
-dataframe = dataframe.sample(frac=1).reset_index(drop=True)        # frac is percentage of data u want returned to u (1=100%)
-#print(dataframe)                                                  #true for changes to carry over
+mnist=tf.keras.datasets.mnist 
+(x_train,y_train),(x_test,y_test)=mnist.load_data()
 
 
+x_train = tf.keras.utils.normalize(x_train,axis=1)
+x_test = tf.keras.utils.normalize(x_test,axis=1)
 
-X = dataframe.drop(['label'], axis=1)                              #dataframe is a matrix, the drop function drops that particular row
-Y = dataframe['label']                                             #and axis =1 meaning itll delte a colounm 
-                                                                   #seperating image and label from dataset
 
-X_train, Y_train =  X, Y                                           #x=image
-X_test,Y_test = X,Y     
+model= tf.keras.models.Sequential() 
+model.add(tf.keras.layers.Flatten(input_shape=(28,28)))
+model.add(tf.keras.layers.Dense(units=128,activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(units=128,activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(units=10,activation=tf.nn.softmax))
+model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
+model.fit(x_train,y_train,epochs=10) 
 
-print(Y_test[40])
-                                                                  #y = label
-grid_data = X_train.values[40].reshape(28,28)                     #reshaping matrix to size 28*28
-plt.imshow(grid_data,cmap="gray")               
-plt.title(Y_train.values[40])                                     #Y_test[40] gives which no it is 
+loss,accuracy=model.evaluate(x_test,y_test)
+print(accuracy)
+print(loss)
+model.save('digits.model')
+
+#img = image_resize("eight.png")
+img= cv.imread("eight.png")[:,:,0]
+img=np.invert(np.array([img]))
+prediction=model.predict(img)
+print('The result is probably:',np.argmax(prediction))
+plt.imshow(img[0],cmap=plt.cm.binary)
 plt.show()
-
-
-model = svm.SVC(kernel="linear",C=2)
-model.fit(X_train,Y_train)
-joblib.dump(model, "model/svm_0to5label_linear_2") 
-print ("predicting -----------")
-predictions = model.predict(X_test)
-print ("Accuracy ------------", metrics.accuracy_score(Y_test, predictions))
-
-x =image_resize("6.png")
-print(x.shape)
-y =model.predict(x)
-print(y)

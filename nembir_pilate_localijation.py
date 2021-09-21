@@ -1,10 +1,11 @@
 import cv2 as cv
 import numpy as np
+from imaje_resije import *
 
 '''****************************************************************************************'''
 # IMAGE_ENHANCING_FUNCTIONS
 def D_filter(image):
-    return cv.filter2D(image , -1 , np.ones((5,5), np.float32)/25)
+    return cv.filter2D(image , -1 , np.ones((1,1), np.float32)/1)
 
 
 def grayscale(image):
@@ -69,7 +70,6 @@ def drawLocalizedPlate(image, approximatedPolygon):
 
 
 '''***********************************************************************************************************'''
-
 
 
 

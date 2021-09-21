@@ -2,42 +2,39 @@
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-
+from PIL import Image
+from PIL import ImageFilter
 #METHOD 1
-'''
-def image_resize(image):
-    im = Image.open(image).convert('L')
-    width = float(im.size[0])
-    height = float(im.size[1]) 
-    newImage = Image.new('L', (28, 28), (255))            # creates white canvas of 28x28 pixels
 
-    if width > height:                                    # check which dimension is bigger
-                                                          # Width is bigger. Width becomes 20 pixels.
-        new_height = int(round((20.0 / width * height), 0))  # resize height according to ratio width
-        if (new_height == 0):                                #minimum is 1 pixel
-            new_height = 1
-        img = im.resize((20, new_height), Image.ANTIALIAS).filter(ImageFilter.SHARPEN)
-        wtop = int(round(((28 - new_height) / 2), 0))  # calculate horizontal position
-        newImage.paste(img, (4, wtop))              # paste resized image on white canvas
-    else:
-                                                    # Height is bigger. Heigth becomes 20 pixels.
-        nwidth = int(round((20.0 / height * width), 0))  # resize width according to ratio height
-        if (nwidth == 0):  
-            nwidth = 1
-                                                         # resize and sharpen
-        img = im.resize((nwidth, 20), Image.ANTIALIAS).filter(ImageFilter.SHARPEN)
-        wleft = int(round(((28 - nwidth) / 2), 0))       # caculate vertical pozition
-        newImage.paste(img, (wleft, 4))                 # paste resized image on white canvas
+def conTO28x28(path):
+  #img = cv2.cvtColor(cv2.imread('/gdrive/MyDrive/Colab Notebooks/OCR/Data/English/Img/GoodImg/Bmp/Sample041/img041-00190.png'), cv2.COLOR_BGR2GRAY)   
+  img = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2GRAY)   
 
-    
+  # convert each image of shape (32, 28, 1)
+  w, h = img.shape
+  if h > 28 or w > 28:
+    (tH, tW) = img.shape
+    dX = int(max(0, 28 - tW) / 2.0)
+    dY = int(max(0, 28 - tH) / 2.0)
 
-    img_ = list(newImage.getdata()) 
-    img_ = [(255 - x) * 1.0 / 255.0 for x in img_]   
-    img_= np.array(img_)  #invert
-    img_ = np.resize(img_ , (28,28))
-    return img_
+    img = cv2.copyMakeBorder(img, top=dY, bottom=dY,
+          left=dX, right=dX, borderType=cv2.BORDER_CONSTANT,
+          value=(0, 0, 0))
+    img = cv2.resize(img, (28, 28))
 
-'''
+  w, h = img.shape
+
+  if w < 28:
+      add_zeros = np.ones((28-w, h))*255
+      img = np.concatenate((img, add_zeros))
+
+  if h < 28:
+      add_zeros = np.ones((28, 28-h))*255
+      img = np.concatenate((img, add_zeros), axis=1)
+  #img = np.expand_dims(img, axis=2)
+  # Normalize each image
+  return img
+
 #METHOD 2
 from PIL import Image
 import os
@@ -46,15 +43,21 @@ import glob
 def image_resize(img):
     image= Image.open(img)
     resized_image = image.resize((28,28))
-    resized_image.show()
     resized_image.save(img)
 
-    img_ = cv2.imread(img)
-    img_ = np.resize(img_ , (10000,28*28))
+    img_ = cv2.imread(img)[:,:,0]
+    img_ = np.invert(np.array([img_] ))
+    img_=np.resize(img_ ,(10000,784))
+    
 
     return img_
 
-
+def plot_images(img1,  title1="",):
+    fig = plt.figure(figsize=[18,18])
+    ax1 = fig.add_subplot(121)
+    ax1.imshow(img1, cmap="gray")
+    ax1.set(xticks=[], yticks=[], title=title1)
+    plt.show()
 
 
 
