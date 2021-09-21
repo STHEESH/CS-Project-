@@ -25,9 +25,9 @@ print(loss)
 
 model.save('digits.model')
 #To prevent training repeatedly
-x = image_resize("5.png")
+x = image_resize("3.png")
 
-img= cv.imread("5.png")[:,:,0]
+img= cv.imread("3.png")[:,:,0]
 img=np.invert(np.array([img]))
 prediction=model.predict(img)
 print(prediction)
