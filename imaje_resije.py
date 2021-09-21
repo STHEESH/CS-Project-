@@ -60,6 +60,17 @@ def plot_images(img1,  title1="",):
     plt.show()
 
 
+def image_resize_sklearn(img):
+    image= Image.open(img)
+    resized_image = image.resize((8,8))
+    resized_image.save(img)
+
+    img_ = cv2.imread(img)[:,:,0]
+    img_ = np.invert(np.array([img_] ))
+    img_=np.resize(img_ ,(899,64))
+    
+
+    return img_
 
 
 

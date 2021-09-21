@@ -25,7 +25,7 @@ print(accuracy)
 print(loss)
 model.save('digits.model')
 
-#img = image_resize("eight.png")
+img = image_resize("eight.png")
 img= cv.imread("eight.png")[:,:,0]
 img=np.invert(np.array([img]))
 prediction=model.predict(img)
