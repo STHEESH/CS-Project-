@@ -40,6 +40,7 @@ from PIL import Image
 import os
 import PIL
 import glob
+#for tensorflow
 def image_resize(img):
     image= Image.open(img)
     resized_image = image.resize((28,28))
@@ -51,15 +52,7 @@ def image_resize(img):
     
 
     return img_
-
-def plot_images(img1,  title1="",):
-    fig = plt.figure(figsize=[18,18])
-    ax1 = fig.add_subplot(121)
-    ax1.imshow(img1, cmap="gray")
-    ax1.set(xticks=[], yticks=[], title=title1)
-    plt.show()
-
-
+#for sklearn
 def image_resize_sklearn(img):
     image= Image.open(img)
     resized_image = image.resize((8,8))
@@ -71,6 +64,18 @@ def image_resize_sklearn(img):
     
 
     return img_
+
+
+#to_plot_the_images
+def plot_images(img1,  title1="",):
+    fig = plt.figure(figsize=[18,18])
+    ax1 = fig.add_subplot(121)
+    ax1.imshow(img1, cmap="gray")
+    ax1.set(xticks=[], yticks=[], title=title1)
+    plt.show()
+
+
+
 
 
 

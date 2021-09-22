@@ -44,7 +44,7 @@ def remove_shadow(image):
         return result_norm
 
 
-'''*********************************************************************************************************'''
+#***************************************************************************************************************************************************************#
 # Edge Detection
 def edgeDetection(image, threshold1 = 2, threshold2= 10):
     cannyImage = cv.Canny(image, threshold1, threshold2)
@@ -85,6 +85,7 @@ def drawLocalizedPlate(image, approximatedPolygon):
     cv.putText(finalImage, "Centroid of Plate: ("+str(cX)+", "+str(cY)+")", (50,50), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
     return finalImage
+#clears the plates folder 
 def delete_folder():
     import os, shutil
     folder = 'plates'
@@ -98,9 +99,10 @@ def delete_folder():
         except Exception as e:
              print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-'''***********************************************************************************************************'''
+#**************************************************************************************************************************************************************#
 #MAIN_FUNCTION
 def main(path):
+    #clearing the plates folder everytime the function is used
     delete_folder()
 
     #using functions to enhance image quality
@@ -112,7 +114,7 @@ def main(path):
     cnts = findContours(image)
     plot_images(image)
 
-    plates=[]
+    plates=[] # incase multiple possible plates are recognized 
     plate = None
     for c in cnts:
         perimeter = cv2.arcLength(c, True)
@@ -124,7 +126,7 @@ def main(path):
     for i in range(len(plates)):
         cv.imwrite( f'plates/plates{i}.png', plates[i])
 
-main("o.png")
+#**************************************************************************************************************************************************************#
 
         
         
