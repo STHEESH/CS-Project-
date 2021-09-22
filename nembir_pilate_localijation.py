@@ -112,7 +112,7 @@ def main(path):
     image=grayscale(image)
     image=tresholding(image)
     cnts = findContours(image)
-    plot_images(image)
+    #plot_images(image)
 
     plates=[] # incase multiple possible plates are recognized 
     plate = None
@@ -129,7 +129,7 @@ def main(path):
 #**************************************************************************************************************************************************************#
 
         
-        
+main("o.png")       
         
     
 
