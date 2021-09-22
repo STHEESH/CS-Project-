@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+from numpy.lib.function_base import delete
 from imaje_resije import *
 
 '''****************************************************************************************'''
@@ -26,9 +27,26 @@ def subtractOpenFromHistEq(histEqImage, morphImage):
 def tresholding(image):
     x,t=cv.threshold(image, 127, 255, cv.THRESH_BINARY, cv.THRESH_OTSU)
     return t
+
+def remove_shadow(image):
+    rgb_planes = cv2.split(image)
+    result_planes = []
+    result_norm_planes = []
+    for plane in rgb_planes:
+        dilated_img = cv2.dilate(plane, np.ones((7,7), np.uint8))
+        diff_img = 255 - cv2.absdiff(plane, dilated_img)
+        norm_img = cv2.normalize(diff_img,None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8UC1)
+        result_planes.append(diff_img)
+        result_norm_planes.append(norm_img)
+
+        result = cv2.merge(result_planes)
+        result_norm = cv2.merge(result_norm_planes)
+        return result_norm
+
+
 '''*********************************************************************************************************'''
 # Edge Detection
-def edgeDetection(image, threshold1, threshold2):
+def edgeDetection(image, threshold1 = 2, threshold2= 10):
     cannyImage = cv.Canny(image, threshold1, threshold2)
     cannyImage = cv.convertScaleAbs(cannyImage)
     return cannyImage
@@ -39,7 +57,7 @@ def imageDilation(image, structElem):
 
 #Contours
 def findContours(image):
-    newImage, contours, hierarchy = cv.findContours(image, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv.findContours(image, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     ''' For this problem, number plate should have contours with a small area as compared to other contours.
         Hence, we sort the contours on the basis of contour area and take the least 10 contours'''
     return sorted(contours, key=cv.contourArea, reverse=True)[:10]
@@ -67,9 +85,47 @@ def drawLocalizedPlate(image, approximatedPolygon):
     cv.putText(finalImage, "Centroid of Plate: ("+str(cX)+", "+str(cY)+")", (50,50), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
     return finalImage
-
+def delete_folder():
+    import os, shutil
+    folder = 'plates'
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 '''***********************************************************************************************************'''
+#MAIN_FUNCTION
+def main(path):
+    delete_folder()
+    image=cv.imread(path)
+    image=D_filter(image)
+    image=grayscale(image)
+    image=tresholding(image)
+    cnts = findContours(image)
 
+
+    plates=[]
+    plate = None
+    for c in cnts:
+        perimeter = cv2.arcLength(c, True)
+        edges_count = cv2.approxPolyDP(c, 0.02 * perimeter, True)
+        if len(edges_count) == 4:
+            x,y,w,h = cv2.boundingRect(c)
+            plate = image[y:y+h, x:x+w]
+            plates+=[plate]
+    for i in range(len(plates)):
+        cv.imwrite( f'plates/plates{i}.png', plates[i])
+
+main("o.png")
+
+        
+        
+        
+    
 
 
