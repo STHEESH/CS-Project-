@@ -25,8 +25,8 @@ print(accuracy)
 print(loss)
 model.save('digits.model')
 
-img = image_resize("o.png")
-img= cv.imread("o.png")[:,:,0]
+img = image_resize("nembirs.png")
+img= cv.imread("nembirs.png")[:,:,0]
 img=np.invert(np.array([img]))
 prediction=model.predict(img)
 print('The result is probably:',np.argmax(prediction))
