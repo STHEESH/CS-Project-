@@ -102,18 +102,21 @@ def delete_folder():
 #MAIN_FUNCTION
 def main(path):
     delete_folder()
+
+    #using functions to enhance image quality
+
     image=cv.imread(path)
     image=D_filter(image)
     image=grayscale(image)
     image=tresholding(image)
     cnts = findContours(image)
-
+    plot_images(image)
 
     plates=[]
     plate = None
     for c in cnts:
         perimeter = cv2.arcLength(c, True)
-        edges_count = cv2.approxPolyDP(c, 0.02 * perimeter, True)
+        edges_count = cv2.approxPolyDP(c, 0.02* perimeter, True)
         if len(edges_count) == 4:
             x,y,w,h = cv2.boundingRect(c)
             plate = image[y:y+h, x:x+w]
