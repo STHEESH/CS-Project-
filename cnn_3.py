@@ -3,30 +3,35 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from imaje_resije import *
+from tensorflow.keras.models import load_model
 
-mnist=tf.keras.datasets.mnist 
-(x_train,y_train),(x_test,y_test)=mnist.load_data()
-
-
-x_train = tf.keras.utils.normalize(x_train,axis=1)
-x_test = tf.keras.utils.normalize(x_test,axis=1)
+def model():
+    mnist=tf.keras.datasets.mnist 
+    (x_train,y_train),(x_test,y_test)=mnist.load_data()
 
 
-model= tf.keras.models.Sequential() 
-model.add(tf.keras.layers.Flatten(input_shape=(28,28)))
-model.add(tf.keras.layers.Dense(units=128,activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(units=128,activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(units=10,activation=tf.nn.softmax))
-model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
-model.fit(x_train,y_train,epochs=10) 
+    x_train = tf.keras.utils.normalize(x_train,axis=1)
+    x_test = tf.keras.utils.normalize(x_test,axis=1)
 
-loss,accuracy=model.evaluate(x_test,y_test)
-print(accuracy)
-print(loss)
-model.save('digits.model')
 
-img = image_resize("nembirs.png")
-img= cv.imread("nembirs.png")[:,:,0]
+    model= tf.keras.models.Sequential() 
+    model.add(tf.keras.layers.Flatten(input_shape=(28,28)))
+    model.add(tf.keras.layers.Dense(units=128,activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(units=128,activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(units=10,activation=tf.nn.softmax))
+    model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
+    model.fit(x_train,y_train,epochs=10) 
+
+    loss,accuracy=model.evaluate(x_test,y_test)
+    print(accuracy)
+    print(loss)
+    model.save('digits2.model')
+
+
+model=load_model("digits2.model")# to avoid repeated training
+
+image_resize("3.png")
+img= cv.imread("3.png")[:,:,0]
 img=np.invert(np.array([img]))
 prediction=model.predict(img)
 print('The result is probably:',np.argmax(prediction))

@@ -57,7 +57,7 @@ labels = np.hstack([azLabels, digitsLabels])
 # However, the architecture we're using is designed for 32x32 images,
 # So we need to resize them to 32x32
 
-data = [cv2.resize(image, (32, 32)) for image in data]
+data = [cv2.resize(image, (28, 28)) for image in data]
 data = np.array(data, dtype="float32")
 
 # add a channel dimension to every image in the dataset and scale the
