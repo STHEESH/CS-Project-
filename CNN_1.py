@@ -5,9 +5,9 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 from tensorflow.python.keras.metrics import accuracy
 from imaje_resije import image_resize
-mnist = tf.keras.datasets.mnist
+mnist=tf.keras.datasets.mnist 
+(x_train,y_train),(x_test,y_test)=mnist.load_data()
 
-(x_train, y_train),(x_test,y_test)=mnist.load_data()# split the data in training set as tuple
 
 x_train = tf.keras.utils.normalize(x_train , axis = 1)
 x_test = tf.keras.utils.normalize(x_test , axis = 1)
