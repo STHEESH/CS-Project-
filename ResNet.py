@@ -13,7 +13,7 @@ import argparse
 import cv2
 import os
 from collections import OrderedDict
-from  load_data import *
+
 '''
 #building resnet model
 from tensorflow.keras.layers  import BatchNormalization
@@ -185,7 +185,7 @@ import cv2
 
 
 model = load_model("model.h5")
-
+'''
 def predict_image(img):
   image = cv2.imread(img)
   gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -247,7 +247,7 @@ def predict_image(img):
     output+=label
   
   return output
-
-predict_image('3.png')
+'''
+print(model.predict('3.png'))
 
                                                  
