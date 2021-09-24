@@ -172,7 +172,7 @@ H = model.fit(
 	epochs=EPOCHS,
 	class_weight=classWeight,
 	verbose=1,
-  callbacks=[cp_callback])
+        callbacks=[cp_callback])
 model.save('model.h5')
 '''
 
