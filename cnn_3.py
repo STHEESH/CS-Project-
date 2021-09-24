@@ -27,13 +27,22 @@ def model():
     print(loss)
     model.save('digits2.model')
 
+def model_digits2_model():
+     model=load_model("digits2.model")# to avoid repeated training
 
-model=load_model("digits2.model")# to avoid repeated training
+     image_resize_model("3.png")
+     img= cv.imread("3.png")[:,:,0]
+     img=np.invert(np.array([img]))
+     prediction=model.predict(img)
+     print('The result is probably:',np.argmax(prediction))
+     plt.imshow(img[0],cmap=plt.cm.binary)
+     plt.show()                                 
+def MNIST_h5_model():
+    model=load_model("MNIST.h5")
+    img=image_resize_model("3.png")
+    res = model.predict([img])[0]
+    pred =  np.argmax(res)
+    print(pred)
 
-image_resize("3.png")
-img= cv.imread("3.png")[:,:,0]
-img=np.invert(np.array([img]))
-prediction=model.predict(img)
-print('The result is probably:',np.argmax(prediction))
-plt.imshow(img[0],cmap=plt.cm.binary)
-plt.show()
+
+

@@ -248,6 +248,6 @@ def predict_image(img):
   
   return output
 
-predict_image('o.png')
+predict_image('3.png')
 
                                                  

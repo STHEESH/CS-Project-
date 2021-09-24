@@ -60,10 +60,22 @@ def image_resize_sklearn(img):
 
     img_ = cv2.imread(img)[:,:,0]
     img_ = np.invert(np.array([img_] ))
-    img_=np.resize(img_ ,(10000,32,32,1))
+    img_=np.resize(img_ ,(1,32,32,1))
     
 
     return img_
+def image_resize_model(img):
+    im1 = PIL.Image.open(img)
+
+    image = im1.resize((28,28))
+    image.save(img)
+#convert rgb to grayscale
+    image = image.convert('L')
+    image = np.array(image)
+#reshaping to support our model input and normalizing
+    image = image.reshape(1,28,28,1)
+    image = image/255.0
+    return image
 
 
 #to_plot_the_images
