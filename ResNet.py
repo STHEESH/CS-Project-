@@ -13,8 +13,8 @@ import argparse
 import cv2
 import os
 from collections import OrderedDict
+from load_data import *
 
-'''
 #building resnet model
 from tensorflow.keras.layers  import BatchNormalization
 from keras.layers.convolutional import Conv2D
@@ -174,7 +174,7 @@ H = model.fit(
 	verbose=1,
         callbacks=[cp_callback])
 model.save('model.h5')
-'''
+
 
 from tensorflow.keras.models import load_model
 from imutils.contours import sort_contours
@@ -185,7 +185,7 @@ import cv2
 
 
 model = load_model("model.h5")
-'''
+
 def predict_image(img):
   image = cv2.imread(img)
   gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -247,7 +247,7 @@ def predict_image(img):
     output+=label
   
   return output
-'''
-print(model.predict('3.png'))
+
+
 
                                                  
