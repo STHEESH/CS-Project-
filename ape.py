@@ -109,7 +109,6 @@ def stream_lit_app():
 #title
     st.title("NUMBER PLATE RECOGNITION")
 #subtitle
-    st.markdown("## Optical Character Recognition - Using `easyocr`, `streamlit`")
     st.markdown("")
 
 #image uploader
@@ -129,6 +128,9 @@ def stream_lit_app():
         st.balloons()
         if st.button("Click here to read the numer plate!"):
             number_plate_localizer("tempdir/temp.png")
+            #localizing numberplate
+            
+        
     else:
         st.write("Upload an Image")
 
@@ -136,7 +138,7 @@ def stream_lit_app():
                   and Amogh''')
                   
 
-    #localizing numberplate
+    
     
 
 
