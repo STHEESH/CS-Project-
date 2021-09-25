@@ -127,14 +127,17 @@ def stream_lit_app():
         
         st.success("Image successfully uploaded!")
         st.balloons()
+        if st.button("Click here to read the numer plate!"):
+            number_plate_localizer("tempdir/temp.png")
     else:
         st.write("Upload an Image")
 
     st.caption('''BY Sathish 
                   and Amogh''')
+                  
 
     #localizing numberplate
-    number_plate_localizer("tempdir/temp.png")
+    
 
 
 stream_lit_app()
