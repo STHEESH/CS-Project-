@@ -40,18 +40,7 @@ from PIL import Image
 import os
 import PIL
 import glob
-#for tensorflow
-def image_resize(img):
-    image= Image.open(img)
-    resized_image = image.resize((28,28))
-    resized_image.save(img)
 
-    img_ = cv2.imread(img)[:,:,0]
-    img_ = np.invert(np.array([img_] ))
-    img_=np.resize(img_ ,(10000,784))
-    
-
-    return img_
 #for sklearn
 def image_resize_sklearn(img):
     image= Image.open(img)
@@ -68,12 +57,14 @@ def image_resize_model(img):
     im1 = PIL.Image.open(img)
 
     image = im1.resize((28,28))
+    #resizing image to 28,28
     image.save(img)
-#convert rgb to grayscale
+    #convert rgb to grayscale
     image = image.convert('L')
     image = np.array(image)
-#reshaping to support our model input and normalizing
+    #reshaping to support our model input 
     image = image.reshape(1,28,28,1)
+    #normalizing
     image = image/255.0
     return image
 

@@ -15,8 +15,8 @@ def grayscale(image):
 def noiseRemoval(image):
     return cv.bilateralFilter(image, 11, 17, 17)
 
-def histogramEqualization(image):
-    return cv.absdiffequalizeHist(image)
+#def histogramEqualization(image):
+    #return cv.absdiffequalizeHist(image)
 
 def morphologicalOpening(image, structElem):
     return cv.morphologyEx(image, cv.MORPH_OPEN, structElem, iterations=15)
@@ -106,31 +106,35 @@ def main(path):
     delete_folder()
 
     #using functions to enhance image quality
+    
 
     image=cv.imread(path)
     image=D_filter(image)
     image=grayscale(image)
     image=tresholding(image)
     cnts = findContours(image)
+    
     #plot_images(image)
 
     plates=[] # incase multiple possible plates are recognized 
     plate = None
+    #finding contours
     for c in cnts:
         perimeter = cv2.arcLength(c, True)
         edges_count = cv2.approxPolyDP(c, 0.02* perimeter, True)
         if len(edges_count) == 4:
+            #finding a quadrilateral
             x,y,w,h = cv2.boundingRect(c)
             plate = image[y:y+h, x:x+w]
             plates+=[plate]
+            #there may be more than one possible "numberplates "
     for i in range(len(plates)):
         cv.imwrite( f'plates/plates{i}.png', plates[i])
         
 
 #**************************************************************************************************************************************************************#
 
-        
-        
+
     
 
 

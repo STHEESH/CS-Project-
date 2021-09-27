@@ -114,15 +114,18 @@ def stream_lit_app():
 #image uploader
     image = st.file_uploader(label = "Upload the image of the car here",type=['png','jpg','jpeg'])
     if image is not None:
+        #CHECKING IF IMAGE EXISTS OR NOT 
 
         input_image = Image.open(image) #read image
         file_details = image.name,image.type
         with open(os.path.join("tempdir" ,"temp.png"),"wb") as f:
             f.write(image.getbuffer())
-        #saving numberplate
+        #saving numberplate in a directory called tempdir
 
-        st.image(input_image) #display image
+        st.image(input_image) 
+        #display image
         st.write(file_details[0])
+        #displaying name of file user uploaded
         
         st.success("Image successfully uploaded!")
         st.balloons()
@@ -137,11 +140,6 @@ def stream_lit_app():
     st.caption('''BY Sathish 
                   and Amogh''')
                   
-
-    
-    
-
-
 stream_lit_app()
 
 
