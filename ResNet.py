@@ -139,7 +139,7 @@ class ResNet:                 #basic resnet architecture
 
 		# return the constructed network architecture
 		return model
-
+'''
 EPOCHS = 10 # Train mode for 10 epochs
 INIT_LR = 1e-1 # Take initial learning rate as 0.01
 BS = 256 # Taking batch size of 256
@@ -246,7 +246,7 @@ def predict_image(img):
     label = labelNames[i]
     output+=label
   
-  return output
+  return output'''
 
 
 

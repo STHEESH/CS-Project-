@@ -43,13 +43,19 @@ import glob
 
 #for sklearn
 def image_resize_sklearn(img):
-    image= Image.open(img)
-    resized_image = image.resize((32,32))
-    resized_image.save(img)
+    im1 = PIL.Image.open(img)
 
-    img_ = cv2.imread(img)[:,:,0]
-    img_ = np.invert(np.array([img_] ))
-    img_=np.resize(img_ ,(1,32,32,1))
+    image = im1.resize((32,32))
+    #resizing image to 28,28
+    image.save(img)
+    #convert rgb to grayscale
+    image = image.convert('L')
+    image = np.array(image)
+    #reshaping to support our model input 
+    image = image.reshape(1,32,32,1)
+    #normalizing
+    image = image/255.0
+    return image
     
 
     return img_

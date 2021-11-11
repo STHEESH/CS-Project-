@@ -47,7 +47,7 @@ def model_emnist():
     print(loss)
  
 
-model=load_model("handwriting.model")# to avoid repeated training
+model=load_model(r"model/handwriting.model")# to avoid repeated training
 
 image_resize_sklearn("3.png")
 img= cv.imread("3.png")[:,:,0]
