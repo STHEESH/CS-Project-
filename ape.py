@@ -6,7 +6,7 @@ import imutils
 import cv2
 from nembir_pilate_localijation import main as number_plate_localizer
 from save_in_csv import *
-
+from PIL import Image
 from imaje_resije import conTO28x28, image_resize_sklearn
 
 
@@ -116,36 +116,38 @@ def flask_app():
 
 def stream_lit_app():
 #STREAMLIT_APP
-    import cv2
-    from nembir_pilate_localijation import main as number_plate_localizer
-    import streamlit as st  #Web App
-    from PIL import Image #Image Processing
-    import numpy as np #Image Processing 
-    import os
+    try:
+        import cv2
+        from nembir_pilate_localijation import main as number_plate_localizer
+        import streamlit as st  #Web App
+        from PIL import Image #Image Processing
+        import numpy as np #Image Processing 
+        import os
 #title
-    st.title("NUMBER PLATE RECOGNITION")
+        st.title("NUMBER PLATE RECOGNITION")
 #subtitle
-    st.markdown("")
+        st.markdown("")
 
 #image uploader
-    image = st.file_uploader(label = "Upload the image of the car here",type=['png','jpg','jpeg'])
-    if image is not None:
-        #CHECKING IF IMAGE EXISTS OR NOT 
+        image = st.sidebar.file_uploader(label = "Upload the image of the car here",type=['png','jpg','jpeg'])
+        if image is not None:
+            #CHECKING IF IMAGE EXISTS OR NOT 
 
-        input_image = Image.open(image) #read image
-        file_details = image.name,image.type
-        with open(os.path.join("tempdir" ,"temp.png"),"wb") as f:
-            f.write(image.getbuffer())
+            input_image = Image.open(image) #read image
+            file_details = image.name,image.type
+            with open(os.path.join("tempdir" ,"temp.png"),"wb") as f:
+                f.write(image.getbuffer())
             #saving numberplate in a directory called tempdir
-        try:
-            st.image(input_image) 
-            #display image
-            st.write(file_details[0])
+        
+            st.sidebar.image(input_image) 
+        #display image
+            st.sidebar.write(file_details[0])
+            
         #displaying name of file user uploaded
         
-            st.success("Image successfully uploaded!")
+            st.sidebar.success("Image successfully uploaded!")
             st.balloons()
-            if st.button("Click here to read the numer plate!"):
+            if st.sidebar.button("Click here to read the numer plate!"):
                 number_plate_localizer("tempdir/temp.png")
                 format='.png'
                 myDir = "plates"
@@ -161,17 +163,24 @@ def stream_lit_app():
                 for image in createFileList(myDir):
                    pred = predict_image(image)
                    if len(pred) > 3:
-                     st.write(pred)
+                     img=Image.open(image)
+                     st.image(img , caption="Localized Numberplate")
+                     
+                     st.write("prediction =",  pred)
                      save_in_csv()
                    else:
                      continue
-        except:
-            print("Can't Read the Numberplate")
-                     
-    else:
+
+        else:
          st.write("Upload an Image")
 
-    st.caption('''BY Sathish 
+       
+    except:
+        st.write("Can't Read the Numberplate")
+       
+                     
+
+        st.caption('''BY Sathish 
                   and Amogh''')     
 
 #*********************************************************************************************************************************************************************************

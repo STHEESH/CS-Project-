@@ -93,7 +93,7 @@ def save_in_csv():
         fileList = []
         for root, dirs, files in os.walk(myDir, topdown=False):
                 for name in files:
-                   print(name)
+      #             print(name)
                    if name.endswith(format):
                       fullName = os.path.join(root, name)
                       fileList.append(fullName)
@@ -105,7 +105,7 @@ def save_in_csv():
         import numpy as np
         import matplotlib.image as img
         imageMat = img.imread(image)
-        print("Image shape:", imageMat.shape)
+       # print("Image shape:", imageMat.shape)
         if len(imageMat.shape) == 2:
             x,y=imageMat.shape
             image_mat = imageMat.reshape(x,y,-1)
@@ -117,8 +117,8 @@ def save_in_csv():
   # reshape it from 3D matrice to 2D matrice
             imageMat_reshape = image_mat.reshape(image_mat.shape[0],
                                       -1)
-            print("Reshaping to 2D array:",
-            imageMat_reshape.shape)
+           # print("Reshaping to 2D array:",
+           # imageMat_reshape.shape)
 # if image is grayscale
         else:
             imageMat_reshape = image_mat
