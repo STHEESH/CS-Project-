@@ -136,36 +136,38 @@ def stream_lit_app():
         file_details = image.name,image.type
         with open(os.path.join("tempdir" ,"temp.png"),"wb") as f:
             f.write(image.getbuffer())
-        #saving numberplate in a directory called tempdir
-
-        st.image(input_image) 
-        #display image
-        st.write(file_details[0])
+            #saving numberplate in a directory called tempdir
+        try:
+            st.image(input_image) 
+            #display image
+            st.write(file_details[0])
         #displaying name of file user uploaded
         
-        st.success("Image successfully uploaded!")
-        st.balloons()
-        if st.button("Click here to read the numer plate!"):
-            number_plate_localizer("tempdir/temp.png")
-            format='.png'
-            myDir = "plates"
-            def createFileList(myDir, format='.png'):
-                fileList = []
-                for root, dirs, files in os.walk(myDir, topdown=False):
-                   for name in files:
-                      print(name)
-                      if name.endswith(format):
-                         fullName = os.path.join(root, name)
-                         fileList.append(fullName)
-                return fileList
-            for image in createFileList(myDir):
-               pred = predict_image(image)
-               if len(pred) > 3:
-                 st.write(pred)
-                 save_in_csv()
-               else:
-                 continue
-                 
+            st.success("Image successfully uploaded!")
+            st.balloons()
+            if st.button("Click here to read the numer plate!"):
+                number_plate_localizer("tempdir/temp.png")
+                format='.png'
+                myDir = "plates"
+                def createFileList(myDir, format='.png'):
+                    fileList = []
+                    for root, dirs, files in os.walk(myDir, topdown=False):
+                       for name in files:
+                          print(name)
+                          if name.endswith(format):
+                             fullName = os.path.join(root, name)
+                             fileList.append(fullName)
+                    return fileList
+                for image in createFileList(myDir):
+                   pred = predict_image(image)
+                   if len(pred) > 3:
+                     st.write(pred)
+                     save_in_csv()
+                   else:
+                     continue
+        except:
+            print("Can't Read the Numberplate")
+                     
     else:
          st.write("Upload an Image")
 
