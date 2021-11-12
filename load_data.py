@@ -5,6 +5,7 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+#*********************************************************************************************************************************************************************************
 
 def load_mnist_dataset():
 
@@ -20,6 +21,7 @@ def load_mnist_dataset():
   # return a 2-tuple of the MNIST data and labels
   return (data, labels)
 
+#*********************************************************************************************************************************************************************************
 
 def load_az_dataset(datasetPath):
 
@@ -40,6 +42,8 @@ def load_az_dataset(datasetPath):
   labels = np.array(labels, dtype="int")
   
   return (data, labels)
+
+#*********************************************************************************************************************************************************************************
 
 (digitsData, digitsLabels) = load_mnist_dataset()
 (azData, azLabels) = load_az_dataset('datasets\A_Z_data.csv')
@@ -91,3 +95,4 @@ aug = ImageDataGenerator(
     	horizontal_flip=False,
     	fill_mode="nearest")
 
+#*********************************************************************************************************************************************************************************

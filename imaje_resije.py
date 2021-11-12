@@ -6,8 +6,11 @@ from PIL import Image
 from PIL import ImageFilter
 #METHOD 1
 
+#*********************************************************************************************************************************************************************************
+
+
 def conTO28x28(path):
-  #img = cv2.cvtColor(cv2.imread('/gdrive/MyDrive/Colab Notebooks/OCR/Data/English/Img/GoodImg/Bmp/Sample041/img041-00190.png'), cv2.COLOR_BGR2GRAY)   
+  
   img = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2GRAY)   
 
   # convert each image of shape (32, 28, 1)
@@ -42,6 +45,9 @@ import os
 import PIL
 import glob
 
+#*********************************************************************************************************************************************************************************
+
+
 #for sklearn
 def image_resize_sklearn(img):
     im1 = PIL.Image.open(img)
@@ -58,8 +64,9 @@ def image_resize_sklearn(img):
     image = image/255.0
     return image
     
+#*********************************************************************************************************************************************************************************
 
-    return img_
+    
 def image_resize_model(img):
     im1 = PIL.Image.open(img)
 
@@ -75,6 +82,7 @@ def image_resize_model(img):
     image = image/255.0
     return image
 
+#*********************************************************************************************************************************************************************************
 
 #to_plot_the_images
 def plot_images(img1,  title1="",):
@@ -84,6 +92,7 @@ def plot_images(img1,  title1="",):
     ax1.set(xticks=[], yticks=[], title=title1)
     plt.show()
 
+#*********************************************************************************************************************************************************************************
 
 
 

@@ -19,6 +19,8 @@ from save_in_csv import *
 model = load_model(r"Combined_Resnet_50_Epochs")
 print("model has been loaded")
 
+#********************************************************************************************************************************************************************************* 
+
 def predict_image(img):
   image = cv2.imread(img)
   gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -81,6 +83,7 @@ def predict_image(img):
   
   return output
 
+#*********************************************************************************************************************************************************************************
 
 def save_in_csv():
     csv_path=r'images\images.csv'
@@ -125,6 +128,6 @@ def save_in_csv():
            writer=csv.writer(csv_file)
            writer.writerow([predict_image(image) ,'\t' , imageMat_reshape , '\n' ])
     
-    
-           
+#*********************************************************************************************************************************************************************************
+         
 

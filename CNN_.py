@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 from imaje_resije import *
 import cv2 as cv
 
-
+#********************************************************************************************************************************************************************8
 def model_emnist():
     (x_train, y_train), (x_test, y_test) = emnist.load_data(type='balanced')
     #mnist=tf.keras.datasets.mnist #Handwritten dataset
@@ -45,7 +45,7 @@ def model_emnist():
     accuracy,loss=model.evaluate(x_test,y_test)
     print(accuracy)
     print(loss)
-
+#***************************************************************************************************************************************************************************************
 def model():
     mnist=tf.keras.datasets.mnist 
     (x_train,y_train),(x_test,y_test)=mnist.load_data()
@@ -67,7 +67,7 @@ def model():
     print(accuracy)
     print(loss)
     model.save('digits2.model')
-
+#*********************************************************************************************************************************************************************************
 def model_digits2_model():
      model=load_model("digits2.model")# to avoid repeated training
 
@@ -78,7 +78,7 @@ def model_digits2_model():
      print('The result is probably:',np.argmax(prediction))
      plt.imshow(img[0],cmap=plt.cm.binary)
      plt.show() 
-                                     
+#*********************************************************************************************************************************************************************************                                    
 def MNIST_h5_model():
     model=load_model("MNIST.h5")
     img=image_resize_model("3.png")
@@ -87,7 +87,7 @@ def MNIST_h5_model():
     print(pred)
 
  
-
+#*********************************************************************************************************************************************************************************
 model=load_model(r"")# to avoid repeated training
 
 image_resize_sklearn("3.png")
@@ -97,3 +97,5 @@ prediction=model.predict(img)
 print('The result is probably:',np.argmax(prediction))
 plt.imshow(img[0],cmap=plt.cm.binary)
 plt.show()
+
+#*********************************************************************************************************************************************************************************
