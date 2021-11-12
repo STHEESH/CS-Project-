@@ -82,13 +82,12 @@ for i in range(0, len(classTotals)):
 (trainX, testX, trainY, testY) = train_test_split(data,
 	labels, test_size=0.25, stratify=labels, random_state=42)
 
-#data augumentation
 aug = ImageDataGenerator(
-	rotation_range=10,
-	zoom_range=0.05,
-	width_shift_range=0.1,
-	height_shift_range=0.1,
-	shear_range=0.15,
-	horizontal_flip=False,
-	fill_mode="nearest")
+    	rotation_range=10,
+    	zoom_range=0.05,
+    	width_shift_range=0.1,
+    	height_shift_range=0.1,
+    	shear_range=0.15,
+    	horizontal_flip=False,
+    	fill_mode="nearest")
 

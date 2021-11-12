@@ -88,7 +88,7 @@ def MNIST_h5_model():
 
  
 
-model=load_model(r"model/handwriting.model")# to avoid repeated training
+model=load_model(r"")# to avoid repeated training
 
 image_resize_sklearn("3.png")
 img= cv.imread("3.png")[:,:,0]
