@@ -155,12 +155,13 @@ def stream_lit_app():
                     fileList = []
                     for root, dirs, files in os.walk(myDir, topdown=False):
                        for name in files:
-                          print(name)
+                         # print(name)
                           if name.endswith(format):
                              fullName = os.path.join(root, name)
                              fileList.append(fullName)
                     return fileList
                 for image in createFileList(myDir):
+                 try:
                    pred = predict_image(image)
                    if len(pred) > 3:
                      img=Image.open(image)
@@ -168,11 +169,12 @@ def stream_lit_app():
                      
                      st.write("prediction =",  pred)
                      save_in_csv()
-                   else:
+                 except:
                      continue
+                   
 
         else:
-         st.write("Upload an Image")
+         st.sidebar.write("Upload an Image")
 
        
     except:

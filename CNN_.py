@@ -88,14 +88,15 @@ def MNIST_h5_model():
 
  
 #*********************************************************************************************************************************************************************************
-model=load_model(r"")# to avoid repeated training
+def model0():
+    model=load_model(r"")# to avoid repeated training
 
-image_resize_sklearn("3.png")
-img= cv.imread("3.png")[:,:,0]
-img=np.invert(np.array([img]))
-prediction=model.predict(img)
-print('The result is probably:',np.argmax(prediction))
-plt.imshow(img[0],cmap=plt.cm.binary)
-plt.show()
-
+    image_resize_sklearn("3.png")
+    img= cv.imread("3.png")[:,:,0]
+    img=np.invert(np.array([img]))
+    prediction=model.predict(img)
+    print('The result is probably:',np.argmax(prediction))
+    plt.imshow(img[0],cmap=plt.cm.binary)
+    plt.show()
+    
 #*********************************************************************************************************************************************************************************
