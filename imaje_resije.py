@@ -33,6 +33,7 @@ def conTO28x28(path):
       img = np.concatenate((img, add_zeros), axis=1)
   #img = np.expand_dims(img, axis=2)
   # Normalize each image
+  cv2.resize(img , (32,32))
   return img
 
 #METHOD 2

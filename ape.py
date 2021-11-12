@@ -4,9 +4,13 @@ import numpy as np
 import argparse
 import imutils
 import cv2
+from nembir_pilate_localijation import main as number_plate_localizer
+
+from imaje_resije import conTO28x28, image_resize_sklearn
 
 
-model = load_model("model.h5")
+model = load_model(r"Combined_Resnet_50_Epochs")
+print("model has been loaded")
 
 def predict_image(img):
   image = cv2.imread(img)
@@ -209,11 +213,8 @@ def stream_lit_app():
 
     st.caption('''BY Sathish 
                   and Amogh''')
-                  
-stream_lit_app()
 
 
-    
 
 
 
