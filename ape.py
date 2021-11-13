@@ -25,7 +25,7 @@ def flask_app():
     import tensorflow as tf
     from tensorflow import keras
 
-    model = keras.models.load_model("model.h5")
+    model = keras.models.load_model("Combined_Resnet_50_Epochs")
     print("model is loaded")
 
     app = Flask(__name__)
@@ -160,17 +160,23 @@ def stream_lit_app():
                              fullName = os.path.join(root, name)
                              fileList.append(fullName)
                     return fileList
-                for image in createFileList(myDir):
-                 try:
-                   pred = predict_image(image)
-                   if len(pred) > 3:
-                     img=Image.open(image)
-                     st.image(img , caption="Localized Numberplate")
+                plates = createFileList(myDir)
+                if plates == []:
+                    st.write("NumberPlate Not Found")
+                else:
+                   try:
+                    for image in createFileList(myDir):
+                       pred = predict_image(image)
+                       if len(pred) > 3:
+                         img=Image.open(image)
+                         st.image(img , caption="Localized Numberplate")
                      
-                     st.write("prediction =",  pred)
-                     save_in_csv()
-                 except:
-                     continue
+                         st.write("prediction =",  pred)
+                         save_in_csv()
+                       
+               
+                   except:                
+                    st.write("Can't Read The Numberplate")
                    
 
         else:
@@ -178,7 +184,8 @@ def stream_lit_app():
 
        
     except:
-        st.write("Can't Read the Numberplate")
+        #st.write("Can't Read the Numberplate")
+        pass
        
                      
 
