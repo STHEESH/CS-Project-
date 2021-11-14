@@ -1,3 +1,4 @@
+from unicodedata import east_asian_width
 from tensorflow.keras.models import load_model
 from imutils.contours import sort_contours
 import numpy as np
@@ -123,6 +124,7 @@ def stream_lit_app():
         from PIL import Image #Image Processing
         import numpy as np #Image Processing 
         import os
+        import easyocr
 #title
         st.title("NUMBER PLATE RECOGNITION")
 #subtitle
@@ -138,6 +140,9 @@ def stream_lit_app():
             with open(os.path.join("tempdir" ,"temp.png"),"wb") as f:
                 f.write(image.getbuffer())
             #saving numberplate in a directory called tempdir
+            
+            Type = st.radio("" , ["EasyOCR" , "ML Model"])
+
         
             st.sidebar.image(input_image) 
         #display image
@@ -147,36 +152,69 @@ def stream_lit_app():
         
             st.sidebar.success("Image successfully uploaded!")
             st.balloons()
-            if st.sidebar.button("Click here to read the numer plate!"):
-                number_plate_localizer("tempdir/temp.png")
-                format='.png'
-                myDir = "plates"
-                def createFileList(myDir, format='.png'):
-                    fileList = []
-                    for root, dirs, files in os.walk(myDir, topdown=False):
-                       for name in files:
-                         # print(name)
-                          if name.endswith(format):
-                             fullName = os.path.join(root, name)
-                             fileList.append(fullName)
-                    return fileList
-                plates = createFileList(myDir)
-                if plates == []:
-                    st.write("NumberPlate Not Found")
-                else:
-                   try:
-                    for image in createFileList(myDir):
-                       pred = predict_image(image)
-                       if len(pred) > 3:
-                         img=Image.open(image)
-                         st.image(img , caption="Localized Numberplate")
+            if Type == "ML Model":
+                if st.button("Click here to read the numer plate!"):
+                    number_plate_localizer("tempdir/temp.png")
+                    format='.png'
+                    myDir = "plates"
+                    def createFileList(myDir, format='.png'):
+                        fileList = []
+                        for root, dirs, files in os.walk(myDir, topdown=False):
+                           for name in files:
+                             # print(name)
+                              if name.endswith(format):
+                                 fullName = os.path.join(root, name)
+                                 fileList.append(fullName)
+                        return fileList
+                    plates = createFileList(myDir)
+                    if plates == []:
+                        st.write("NumberPlate Not Found")
+                    else:
+                       try:
+                        for image in createFileList(myDir):
+                           pred = predict_image(image)
+                           if len(pred) > 3:
+                             img=Image.open(image)
+                             st.image(img , caption="Localized Numberplate")
                      
-                         st.write("prediction =",  pred)
-                         save_in_csv()
+                             st.write("prediction =",  pred)
+                             save_in_csv()
                        
                
-                   except:                
-                    st.write("Can't Read The Numberplate")
+                       except:                
+                        st.write("Can't Read The Numberplate")
+            elif Type == "EasyOCR":
+                if st.button('Click Here To Read The numberplate') :
+                    number_plate_localizer("tempdir/temp.png")
+                    format='.png'
+                    myDir = "plates"
+                    def createFileList(myDir, format='.png'):
+                        fileList = []
+                        for root, dirs, files in os.walk(myDir, topdown=False):
+                           for name in files:
+                             # print(name)
+                              if name.endswith(format):
+                                 fullName = os.path.join(root, name)
+                                 fileList.append(fullName)
+                        return fileList
+                    plates = createFileList(myDir)
+                    if plates == []:
+                        st.write("NumberPlate Not Found")
+                    else:
+                       try:
+                        for image in createFileList(myDir):
+                            Reader = easyocr.Reader(['en'])
+                            text =Reader.readtext(image , paragraph= False)
+                            text_ = ""
+                            accuracy=0
+                            for i in range(len(text)):
+                            
+                               text_+=text[i][1].rstrip("\n")
+                               accuracy += float(text[i][2])
+                               
+                            st.write(text_)
+                       except:
+                            st.write("Number Plate Not Found")
                    
 
         else:
