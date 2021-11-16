@@ -125,7 +125,9 @@ def stream_lit_app():
         import numpy as np #Image Processing 
         import os
         import easyocr
+        
 #title
+        st.set_page_config(page_title="Autoatic NumberPLate Recogniton" )
         st.title("NUMBER PLATE RECOGNITION")
 #subtitle
         st.markdown("")
@@ -202,8 +204,9 @@ def stream_lit_app():
                         st.write("NumberPlate Not Found")
                     else:
                        try:
+                        directory = "datasets"
                         for image in createFileList(myDir):
-                            Reader = easyocr.Reader(['en'])
+                            Reader = easyocr.Reader(['en'] , model_storage_directory= directory)
                             text =Reader.readtext(image , paragraph= False)
                             text_ = ""
                             accuracy=0
@@ -211,8 +214,9 @@ def stream_lit_app():
                             
                                text_+=text[i][1].rstrip("\n")
                                accuracy += float(text[i][2])
+                            st.image(image)
                                
-                            st.write(text_)
+                            st.write( "Prediction : "  , text_)
                        except:
                             st.write("Number Plate Not Found")
                    

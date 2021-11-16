@@ -15,9 +15,8 @@ import imutils
 from nembir_pilate_localijation import main as number_plate_localizer
 from save_in_csv import *
 
-
 model = load_model(r"Combined_Resnet_50_Epochs")
-print("model has been loaded")
+     
 
 #********************************************************************************************************************************************************************************* 
 
