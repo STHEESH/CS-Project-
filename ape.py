@@ -1,10 +1,11 @@
+from re import L
+from kivy.lang import builder
 from matplotlib import image
+from scipy.ndimage.measurements import label
 from save_in_csv import predict_image
 from tensorflow.keras.models import load_model
 import numpy as np
-import argparse
-import imutils
-import cv2
+from tkinter import *
 from nembir_pilate_localijation import main as number_plate_localizer
 from save_in_csv import *
 from PIL import Image
@@ -16,34 +17,62 @@ def kivy_app():
     from kivy.app import App
     from kivy.uix.gridlayout import GridLayout
     from kivy.lang import Builder
+    from kivy.uix.label import Label
     
     Builder.load_string('''#:kivy 1.10.0
- 
- 
- 
 <MyWidget>:
-    cols:1
+    cols:2
     id:my_widget
- 
- 
- 
+
+   
+
     #FileChooserListView:
-    FileChooserIconView:
+    FileChooserListView:
         id:filechooser
         on_selection:my_widget.selected(filechooser.selection)
- 
- 
+
+
     Image:
         id:image
-        source:"\Cars"''')
-    
-    class MyWidget(GridLayout):
-    
+        source:""''')
+
+    class MyWidget(GridLayout): 
     
         def selected(self, filename):
             try:
-                self.ids.image.source = filename[0]
+                input_image = Image.open(filename[0]) 
+                number_plate_localizer(filename[0])
+                format='.png'
+                myDir = "plates"
+                def createFileList(myDir, format='.png'):
+                    fileList = []
+                    for root, dirs, files in os.walk(myDir, topdown=False):
+                        for name in files:
+                            # print(name)
+                            if name.endswith(format):
+                                fullName = os.path.join(root, name)
+                                fileList.append(fullName)
+                    return fileList
+                plates = createFileList(myDir)
+                if plates == []:
+                    l = Label( text = "NumberPlate Not Found")
+                else:
+                    try:
+                        for image in createFileList(myDir):
+                            pred = predict_image(image)
+                            if len(pred) > 4:
+                                img=Image.open(image)
+                                l = Label(text="Localized Numberplate")
+                                self.ids.image.source = image
+
+                        
+                                l_ = Label( text = f"prediction =  {pred}")
+                                save_in_csv()
+                    except:
+                        pass
+
                 
+        
     
     
             except:
@@ -52,16 +81,17 @@ def kivy_app():
     
     
     class FileChooserWindow(App):
+        
         def build(self):
     
             return MyWidget()
     
     
     
+    
     if __name__ == "__main__":
         window = FileChooserWindow()
         window.run()
-
 
 def stream_lit_app():
 #STREAMLIT_APP
@@ -123,7 +153,7 @@ def stream_lit_app():
                        try:
                         for image in createFileList(myDir):
                            pred = predict_image(image)
-                           if len(pred) > 3:
+                           if len(pred) > 4:
                              img=Image.open(image)
                              st.image(img , caption="Localized Numberplate")
                      
@@ -157,16 +187,17 @@ def stream_lit_app():
                             Reader = easyocr.Reader(['en'] , model_storage_directory= directory)
                             text =Reader.readtext(image , paragraph= False)
                             text_ = ""
-                            accuracy=0
-                            for i in range(len(text)):
                             
+                            for i in range(len(text)):
                                text_+=text[i][1].rstrip("\n")
-                               accuracy += float(text[i][2])
                             st.image(image)
-                               
-                            st.write( "Prediction : "  , text_)
+                            if len(text_)> 4:
+                                st.write( "Prediction : "  , text_)
+                            else:
+                                st.write("NumberPLate Not Found")
                        except:
-                            st.write("Number Plate Not Found")
+                            #st.write("Number Plate Not Found")
+                            pass
                    
 
         else:
@@ -184,10 +215,7 @@ def stream_lit_app():
 
 #*********************************************************************************************************************************************************************************
 
-
 kivy_app()
-
-
             
           
 
