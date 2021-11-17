@@ -1,8 +1,6 @@
-from unicodedata import east_asian_width
 from matplotlib import image
-from plyer.facades import filechooser
+from save_in_csv import predict_image
 from tensorflow.keras.models import load_model
-from imutils.contours import sort_contours
 import numpy as np
 import argparse
 import imutils
@@ -14,6 +12,66 @@ from imaje_resije import conTO28x28, image_resize_sklearn
 
 
 #********************************************************************************************************************************************************************************
+def tk_app():    
+    import tkinter as tk
+    from tkinter import filedialog
+    from tkinter.filedialog import askopenfile
+    from PIL import Image, ImageTk
+
+    my_w = tk.Tk()
+    my_w.geometry("600x600")  # Size of the window 
+    my_w.title('Automatic NumberPlate Recognition')
+    my_w.config(bg = "BLACK")
+    my_font1=('times', 24, 'bold')
+    my_font2=('Times New Roman', 16, 'bold' )
+    
+    l1 = tk.Label(my_w,text='Automatic NumberPlate Recognition',width=32,font=my_font1)  
+    l1.grid(row=1,column=1,columnspan=4)
+    l2 = tk.Label(my_w,text='\n\n\n\nUpload Image Of Car Here',width=32,font=my_font2 ,fg = "WHITE" , background="BLACK")  
+    l2.grid(row=4,column=1,columnspan=4)
+
+    b1 = tk.Button(my_w, text=' Click Here to Upload File', 
+    width=20,command = lambda:upload_file() , font=('Times New Roman', 8, 'bold' ))
+    b1.grid(row=5,column=1,columnspan=4)
+
+    def upload_file():
+        f_types = [('Jpg Files', '*.jpg'),
+        ('PNG Files','*.png')]   # type of files to select 
+        filename = tk.filedialog.askopenfilename(filetypes=f_types)
+                 
+        number_plate_localizer(filename)
+        format='.png'
+        myDir = "plates"
+        def createFileList(myDir, format='.png'):
+            fileList = []
+            for root, dirs, files in os.walk(myDir, topdown=False):
+                for name in files:
+                    # print(name)
+                    if name.endswith(format):
+                        fullName = os.path.join(root, name)
+                        fileList.append(fullName)
+            return fileList
+        plates = createFileList(myDir)
+        if plates == []:
+            l3 = tk.Label(my_w,text='Number PLate not found',width=32,font=("Times New Roman ", 8 , 'bold') ,fg = "WHITE" , background="BLACK")  
+            l3.grid(row=4,column=1,columnspan=4)
+        else:
+           # try:
+                for image in createFileList(myDir):
+                    pred = predict_image(image)
+                    if len(pred) > 3:
+                        img=Image.open(image)
+                        img=ImageTk.PhotoImage(img) 
+                        label=tk.Label(image = img)
+                        label.grid(row=8 , column=1)
+                        e2 =tk.Label(my_w , text=f"Prediction ,{pred}")
+                        e2.grid(row = 10 , column = 1)
+                        save_in_csv() 
+           # except:
+                e2 =tk.Label(my_w , text=f"Number PLate Not Found")
+                e2.grid(row = 10 , column = 1)
+
+    my_w.mainloop()   # Keep the window open
 
 def stream_lit_app():
 #STREAMLIT_APP

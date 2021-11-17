@@ -5,7 +5,6 @@ import matplotlib.image as img
 import csv
 import matplotlib.pyplot as plt
 from numpy.lib.type_check import imag
-from ape import *
 import cv2
 from tensorflow.keras.models import load_model
 from imutils.contours import sort_contours
