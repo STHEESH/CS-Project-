@@ -18,10 +18,15 @@ def kivy_app():
     from kivy.uix.gridlayout import GridLayout
     from kivy.lang import Builder
     from kivy.uix.label import Label
+    from kivy.uix.gridlayout import GridLayout
+    from kivy.uix.textinput import TextInput
+    from kivy.core.window import Window
+    Window.clearcolor = (0,0,0,0)
     
     Builder.load_string('''#:kivy 1.10.0
 <MyWidget>:
     cols:2
+    size: root.width , root.height 
     id:my_widget
 
    
@@ -39,6 +44,7 @@ def kivy_app():
     class MyWidget(GridLayout): 
     
         def selected(self, filename):
+
             try:
                 input_image = Image.open(filename[0]) 
                 number_plate_localizer(filename[0])
@@ -77,6 +83,9 @@ def kivy_app():
     
             except:
                 pass
+            
+            
+
     
     
     
