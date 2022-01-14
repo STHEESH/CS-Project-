@@ -1,5 +1,4 @@
 from re import L
-from kivy.lang import builder
 from matplotlib import image
 from scipy.ndimage.measurements import label
 from save_in_csv import predict_image
@@ -13,94 +12,6 @@ from imaje_resije import conTO28x28, image_resize_sklearn
 
 
 #********************************************************************************************************************************************************************************
-def kivy_app():    
-    from kivy.app import App
-    from kivy.uix.gridlayout import GridLayout
-    from kivy.lang import Builder
-    from kivy.uix.label import Label
-    from kivy.uix.gridlayout import GridLayout
-    from kivy.uix.textinput import TextInput
-    from kivy.core.window import Window
-    Window.clearcolor = (0,0,0,0)
-    
-    Builder.load_string('''#:kivy 1.10.0
-<MyWidget>:
-    cols:2
-    size: root.width , root.height 
-    id:my_widget
-
-   
-
-    #FileChooserListView:
-    FileChooserListView:
-        id:filechooser
-        on_selection:my_widget.selected(filechooser.selection)
-
-
-    Image:
-        id:image
-        source:""''')
-
-    class MyWidget(GridLayout): 
-    
-        def selected(self, filename):
-
-            try:
-                input_image = Image.open(filename[0]) 
-                number_plate_localizer(filename[0])
-                format='.png'
-                myDir = "plates"
-                def createFileList(myDir, format='.png'):
-                    fileList = []
-                    for root, dirs, files in os.walk(myDir, topdown=False):
-                        for name in files:
-                            # print(name)
-                            if name.endswith(format):
-                                fullName = os.path.join(root, name)
-                                fileList.append(fullName)
-                    return fileList
-                plates = createFileList(myDir)
-                if plates == []:
-                    l = Label( text = "NumberPlate Not Found")
-                else:
-                    try:
-                        for image in createFileList(myDir):
-                            pred = predict_image(image)
-                            if len(pred) > 4:
-                                img=Image.open(image)
-                                l = Label(text="Localized Numberplate")
-                                self.ids.image.source = image
-
-                        
-                                l_ = Label( text = f"prediction =  {pred}")
-                                save_in_csv()
-                    except:
-                        pass
-
-                
-        
-    
-    
-            except:
-                pass
-            
-            
-
-    
-    
-    
-    class FileChooserWindow(App):
-        
-        def build(self):
-    
-            return MyWidget()
-    
-    
-    
-    
-    if __name__ == "__main__":
-        window = FileChooserWindow()
-        window.run()
 
 def stream_lit_app():
 #STREAMLIT_APP
@@ -170,8 +81,9 @@ def stream_lit_app():
                              save_in_csv()
                        
                
-                       except:                
-                        st.write("Can't Read The Numberplate")
+                       except:
+                           pass                
+                       #st.write("Can't Read The Numberplate")
             elif Type == "EasyOCR":
                 if st.button('Click Here To Read The numberplate') :
                     number_plate_localizer("tempdir/temp.png")
@@ -224,7 +136,7 @@ def stream_lit_app():
 
 #*********************************************************************************************************************************************************************************
 
-kivy_app()
+stream_lit_app()
             
           
 
